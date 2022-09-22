@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <style>
+            body {
+                background-image: url('background.jpg');
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: cover;
+            }
+            .upper_panel {
+                width: 100%;
+                overflow: hidden;
+            }
+            .audio_div, .timer_div {
+                float: left;
+                width: 50%;
+                height: 20%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            p {
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="upper_panel" class="upper_panel">
+            <div id="audio_div" class="audio_div">
+                <audio controls loop>
+                    <source src="music.m4a" type="audio/mpeg">
+                </audio>
+            </div>
+            <div id="timer_div" class="timer_div">
+                <h1><p id="demo">CLICK!</p></h1>
+            </div>
+        </div>
+        
+        <script>
+            var main_interval;
+            var target_distance = 10 * 60 * 1000 + 5000; // min * sec * ms 10 * 60 * 1000
+            var element_to_detect_click = document.getElementById("demo");
+            
+            function render_time(new_time_ms) {
+                var minutes = Math.floor((new_time_ms % 3600000) / 60000);
+                var seconds = Math.floor((new_time_ms % 60000) / 1000);
+                trailing_zero_for_seconds = "";
+                if (seconds < 10) {trailing_zero_for_seconds = "0";}
+                element_to_detect_click.innerHTML = minutes + ":" + trailing_zero_for_seconds + seconds;
+            }
+
+            element_to_detect_click.onmousedown = function () {
+                var interval_start = new Date().getTime();
+                var interval_target = interval_start + target_distance;
+                render_time(target_distance);
+                var printed_time = interval_start - 1000;
+                var trailing_zero_for_seconds = "";
+                clearInterval(main_interval);
+                main_interval = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = interval_target - now;
+                    if (now - printed_time >= 1000) {
+                        render_time(distance)
+                        printed_time = now;
+                    }
+                    if (distance < 0) {
+                        clearInterval(main_interval);
+                        element_to_detect_click.innerHTML = "GO!";
+                    }
+                }, 50);
+                return true;
+            };
+        </script>
+    </body>
+</html>
