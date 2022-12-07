@@ -1,0 +1,27 @@
+body {
+    background-image: url('../static/img.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.upper_panel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.audio_div, .timer_div {
+    float: left;
+    width: 50%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    color: white;
+    font-size: 20vmin;
+    margin-top: 25vw;
+    margin-bottom: 25vw;
+}
